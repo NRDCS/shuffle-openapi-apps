@@ -1,0 +1,773 @@
+openapi: 3.0.0
+info:
+  title: Request Tracker REST2
+  description: Partial specification of Request Tracker's REST2 API. Based on
+    https://docs.bestpractical.com/rt/5.0.5/RT/REST2.html and
+    https://gitlab-ext.utu.fi/rt/request-tracker-openapi
+  version: "1.0"
+  x-logo: data:image/png;base64,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
+  contact:
+    email: marius@urkis.lt
+    name: Marius Urkis
+  x-categories:
+    - Cases
+servers:
+  - url: https://rt.org.tld/REST/2.0
+host: rt.org.tld
+basePath: /REST/2.0
+schemes:
+  - "https:"
+paths:
+  /ticket:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: ticket_post
+      operationId: ticket_post
+      description: Create a new ticket.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: >-
+            { "Queue": "General", "Subject": "Create ticket test",
+
+            "Requestor": "user1@example.com", "Cc": "user2@example.com","CustomRoles": {"My Role": "staff1@example.com"},"Content": "Testing a create","CustomFields": {"Severity": "Low"},"AddDependsOn": [4, 5], "DeleteReferredToBy": 1}
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          multiline: false
+          description: Header generated by shuffler.io OpenAPI
+          required: false
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          multiline: false
+          description: Header generated by shuffler.io OpenAPI
+          required: false
+          example: application/json
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: >-
+              { "Queue": "General", "Subject": "Create ticket test",
+
+              "Requestor": "user1@example.com", "Cc": "user2@example.com","CustomRoles": {"My Role": "staff1@example.com"},"Content": "Testing a create","CustomFields": {"Severity": "Low"},"AddDependsOn": [4, 5], "DeleteReferredToBy": 1}
+      x-label: Create ticket
+  "/ticket/{id}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: ticket_id_get
+      operationId: ticket_id_get
+      description: Get information about a ticket.
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+      x-label: Get ticket
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: ticket_id_put
+      operationId: ticket_id_put
+      description: Update a ticket.
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: '{ "Subject": "Update test", "CustomFields": {"Severity":
+            "High"},"AddDependsOn": [4, 5], "DeleteReferredToBy": 1}'
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          multiline: false
+          description: Header generated by shuffler.io OpenAPI
+          required: false
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          multiline: false
+          description: Header generated by shuffler.io OpenAPI
+          required: false
+          example: application/json
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: '{ "Subject": "Update test", "CustomFields": {"Severity":
+              "High"},"AddDependsOn": [4, 5], "DeleteReferredToBy": 1}'
+      x-label: Update ticket
+  "/ticket/{id}/comment":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: ticket_comment
+      operationId: ticket_comment
+      description: Comment on ticket
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: '{ "Content": "Testing a correspondence", "ContentType": "text/plain"
+            }'
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          multiline: false
+          description: Header generated by shuffler.io OpenAPI
+          required: false
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          multiline: false
+          description: Header generated by shuffler.io OpenAPI
+          required: false
+          example: application/json
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: '{ "Content": "Testing a correspondence", "ContentType": "text/plain"
+              }'
+      x-label: Add comment
+  "/ticket/{id}/correspond":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: ticket_correspond
+      operationId: ticket_correspond
+      description: Correspond to ticket
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: '{ "Content": "Testing a correspondence", "ContentType": "text/plain"
+            }'
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          multiline: false
+          description: Header generated by shuffler.io OpenAPI
+          required: false
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          multiline: false
+          description: Header generated by shuffler.io OpenAPI
+          required: false
+          example: application/json
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: '{ "Content": "Testing a correspondence", "ContentType": "text/plain"
+              }'
+      x-label: Update ticket
+  /customfield:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: customfield_post
+      operationId: customfield_post
+      description: Create a customfield.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/customfield/{id}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: customfield_id_get
+      operationId: customfield_id_get
+      description: Get info about a custom field.
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /customfields:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: customfields_post
+      operationId: customfields_post
+      description: Search for custom fields.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: '[{"field":"Name","operator":"LIKE","value":"${CFname}"}]'
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: '[{"field":"Name","operator":"LIKE","value":"${CFname}"}]'
+  /group:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: group_post
+      operationId: group_post
+      description: Create a group.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "Description": "",
+              "Name": ""
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "Description": "",
+                "Name": ""
+              }
+  "/group/{id}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: group_id_get
+      operationId: group_id_get
+      description: Get info about a group.
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/group/{id}/members":
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: group_id_members_put
+      operationId: group_id_members_put
+      description: Add users and groups to a group.
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /groups:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: groups_post
+      operationId: groups_post
+      description: Search for groups.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /queue:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: queue_post
+      operationId: queue_post
+      description: Create a new queue.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "CommentAddress": "",
+              "CorrespondAddress": "",
+              "Description": "",
+              "Lifecycle": "",
+              "Name": "",
+              "SubjectTag": ""
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "CommentAddress": "",
+                "CorrespondAddress": "",
+                "Description": "",
+                "Lifecycle": "",
+                "Name": "",
+                "SubjectTag": ""
+              }
+  "/queue/{idOrName}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: queue_id_name_delete
+      operationId: queue_id_name_delete
+      description: Disable a queue.
+      parameters:
+        - in: path
+          name: idOrName
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: queue_id_name_get
+      operationId: queue_id_name_get
+      description: Get information about a queue.
+      parameters:
+        - in: path
+          name: idOrName
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /queues/all:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: queues_all_get
+      operationId: queues_all_get
+      description: Retrieve list of all queues you can see.
+      parameters: []
+      requestBody:
+        content: {}
+  /rt:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: rt_get
+      operationId: rt_get
+      description: Produces system information.
+      parameters: []
+      requestBody:
+        content: {}
+  /tickets:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: tickets_get
+      operationId: tickets_get
+      description: Search for tickets
+      parameters:
+        - in: query
+          name: search
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /user:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: user_post
+      operationId: user_post
+      description: Create a new user.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/user/{idOrName}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: user_id_name_delete
+      operationId: user_id_name_delete
+      description: Disable a user. Doesn't actually delete anything.
+      parameters:
+        - in: path
+          name: idOrName
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: user_id_name_get
+      operationId: user_id_name_get
+      description: Get information about a user.
+      parameters:
+        - in: path
+          name: idOrName
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: user_id_name_put
+      operationId: user_id_name_put
+      description: Update a user. Password cannot be changed.
+      parameters:
+        - in: path
+          name: idOrName
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/user/{idOrName}/groups":
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: user_name_groups_put
+      operationId: user_name_groups_put
+      description: Add user to groups.
+      parameters:
+        - in: path
+          name: idOrName
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /users:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: users_get
+      operationId: users_get
+      description: Search for users
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "token "
+tags:
+  - name: Miscellaneous
+  - name: Queue
+  - name: Ticket
+  - name: User
+  - name: User Memberships
+  - name: Group
+  - name: Group Memberships
+  - name: Custom Field
