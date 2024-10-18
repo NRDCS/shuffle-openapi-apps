@@ -1,0 +1,4304 @@
+openapi: 3.0.0
+info:
+  title: MISP Automation Local
+  description: >
+    
+    ### Getting Started
+
+
+    MISP API allows you to query, create, modify data models, such as [Events](https://www.circl.lu/doc/misp/GLOSSARY.html#misp-event),
+
+    [Objects](https://www.circl.lu/doc/misp/misp-objects/), [Attributes](https://www.circl.lu/doc/misp/GLOSSARY.html#misp-attribute).
+
+    This is extremly useful for interconnecting MISP with external tools and feeding other systems with threat intel data.
+
+
+    It also lets you perform administrative tasks such as creating users, organisations, altering MISP settings, and much more.
+
+
+    To get an API key there are several options:
+
+    * **[UI]** Go to [My Profile -> Auth Keys](/auth_keys/index) section and click on `+ Add authentication key`
+
+
+    * **[UI]** As an admin go to the the [Administration -> List Users -> View](/admin/users/view/[id]) page of the user you want to create an auth key for and on the `Auth keys` section click on `+ Add authentication key`
+
+
+    * **[CLI]** Use the following command: `./app/Console/cake user change_authkey [e-mail/user_id]`
+
+
+    * **API** Provided you already have an admin level API key, you can create an API key for another user using the `[POST]/auth_keys/add/{{user_id}}` endpoint.
+
+
+    > **NOTE:** The authentication key will only be displayed once, so take note of it or store it properly in your application secrets.
+
+
+    #### Accept and Content-Type headers 
+
+    When performing your request, depending on the type of request, you might need to explicitly specify in what content 
+
+    type you want to get your results. This is done by setting one of the below `Accept` headers:
+
+        Accept: application/json
+        Accept: application/xml
+
+    When submitting data in a `POST`, `PUT` or `DELETE` operation you also need to specify in what content-type you encoded the payload. 
+
+    This is done by setting one of the below `Content-Type` headers:
+
+        Content-Type: application/json
+        Content-Type: application/xml
+
+    Example:
+
+    ```
+
+    curl  --header "Authorization: YOUR_API_KEY" \
+          --header "Accept: application/json" \
+          --header "Content-Type: application/json" https://<misp url>/ 
+    ```
+
+
+    > **NOTE**: By appending .json or .xml the content type can also be set without the need for a header.
+
+
+    #### Automation using PyMISP
+
+
+    [PyMISP](https://github.com/MISP/PyMISP) is a Python library to access MISP platforms via their REST [API](https://www.circl.lu/doc/misp/GLOSSARY.html#api).
+
+    It allows you to fetch events, add or update events/attributes, add or update samples or search for attributes.
+
+
+    ### FAQ
+
+    * [Dev FAQ](https://www.circl.lu/doc/misp/dev-faq/)
+
+    * [GitHub project FAQ](https://github.com/MISP/MISP/wiki/Frequently-Asked-Questions)
+  version: "1.0"
+  x-logo: data:image/png;base64,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
+  contact:
+    email: support@shuffler.io
+    name: "@Anonymous Shuffle User"
+    url: https://twitter.com/shuffleio
+  x-categories:
+    - Intel
+servers:
+  - url: https://misp.local
+host: misp.local
+basePath: /
+schemes:
+  - "https:"
+paths:
+  /admin/logs:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get instance logs
+      operationId: Get_instance_logs
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "change": "%name () => (ORGNAME)%",
+              "description": "%updated by User%",
+              "email": "",
+              "ip": "",
+              "org": "ORG_%"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "change": "%name () => (ORGNAME)%",
+                "description": "%updated by User%",
+                "email": "",
+                "ip": "",
+                "org": "ORG_%"
+              }
+  /admin/organisations/add:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add organisation
+      operationId: Add_organisation
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "contacts": "${contacts}",
+              "created_by": "${created_by}",
+              "created_by_email": "${created_by_email}",
+              "date_created": "${date_created}",
+              "date_modified": "${date_modified}",
+              "description": "${description}",
+              "landingpage": "${landingpage}",
+              "local": "${local}",
+              "name": "${name}",
+              "nationality": "${nationality}",
+              "restricted_to_domain": "${restricted_to_domain}",
+              "sector": "${sector}",
+              "type": "${type}",
+              "user_count": "${user_count}",
+              "uuid": "${uuid}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "contacts": "${contacts}",
+                "created_by": "${created_by}",
+                "created_by_email": "${created_by_email}",
+                "date_created": "${date_created}",
+                "date_modified": "${date_modified}",
+                "description": "${description}",
+                "landingpage": "${landingpage}",
+                "local": "${local}",
+                "name": "${name}",
+                "nationality": "${nationality}",
+                "restricted_to_domain": "${restricted_to_domain}",
+                "sector": "${sector}",
+                "type": "${type}",
+                "user_count": "${user_count}",
+                "uuid": "${uuid}"
+              }
+  "/admin/organisations/delete/{organisationId}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete organisation
+      operationId: Delete_organisation
+      parameters:
+        - in: path
+          name: organisationId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/admin/organisations/edit/{organisationId}":
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit organisation
+      operationId: Edit_organisation
+      parameters:
+        - in: path
+          name: organisationId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /admin/users:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get users
+      operationId: Get_users
+      parameters: []
+      requestBody:
+        content: {}
+  /admin/users/add:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add user
+      operationId: Add_user
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "authkey": "${authkey}",
+              "autoalert": "${autoalert}",
+              "certif_public": "${certif_public}",
+              "change_pw": "${change_pw}",
+              "contactalert": "${contactalert}",
+              "current_login": "${current_login}",
+              "date_created": "${date_created}",
+              "date_modified": "${date_modified}",
+              "disabled": "${disabled}",
+              "email": "${email}",
+              "expiration": "${expiration}",
+              "force_logout": "${force_logout}",
+              "gpgkey": "${gpgkey}",
+              "invited_by": "${invited_by}",
+              "last_login": "${last_login}",
+              "newsread": "${newsread}",
+              "nids_sid": "${nids_sid}",
+              "org_id": "${org_id}",
+              "role_id": "${role_id}",
+              "server_id": "${server_id}",
+              "termsaccepted": "${termsaccepted}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "authkey": "${authkey}",
+                "autoalert": "${autoalert}",
+                "certif_public": "${certif_public}",
+                "change_pw": "${change_pw}",
+                "contactalert": "${contactalert}",
+                "current_login": "${current_login}",
+                "date_created": "${date_created}",
+                "date_modified": "${date_modified}",
+                "disabled": "${disabled}",
+                "email": "${email}",
+                "expiration": "${expiration}",
+                "force_logout": "${force_logout}",
+                "gpgkey": "${gpgkey}",
+                "invited_by": "${invited_by}",
+                "last_login": "${last_login}",
+                "newsread": "${newsread}",
+                "nids_sid": "${nids_sid}",
+                "org_id": "${org_id}",
+                "role_id": "${role_id}",
+                "server_id": "${server_id}",
+                "termsaccepted": "${termsaccepted}"
+              }
+  "/admin/users/delete/{userId}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete user
+      operationId: Delete_user
+      parameters:
+        - in: path
+          name: userId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/admin/users/edit/{userId}":
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit user
+      operationId: Edit_user
+      parameters:
+        - in: path
+          name: userId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/admin/users/view/{userId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get user by ID
+      operationId: Get_user_by_ID
+      parameters:
+        - in: path
+          name: userId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /attributes:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a list of attributes
+      operationId: Get_a_list_of_attributes
+      parameters: []
+      requestBody:
+        content: {}
+  "/attributes/add/{eventId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add an attribute
+      operationId: Add_an_attribute
+      parameters:
+        - in: path
+          name: eventId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "category": "${category}",
+              "comment": "${comment}",
+              "deleted": "${deleted}",
+              "disable_correlation": "${disable_correlation}",
+              "distribution": "${distribution}",
+              "event_id": "${event_id}",
+              "first_seen": "${first_seen}",
+              "last_seen": "${last_seen}",
+              "object_id": "${object_id}",
+              "object_relation": "${object_relation}",
+              "sharing_group_id": "${sharing_group_id}",
+              "timestamp": "${timestamp}",
+              "to_ids": "${to_ids}",
+              "type": "${type}",
+              "uuid": "${uuid}",
+              "value": "${value}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "category": "${category}",
+                "comment": "${comment}",
+                "deleted": "${deleted}",
+                "disable_correlation": "${disable_correlation}",
+                "distribution": "${distribution}",
+                "event_id": "${event_id}",
+                "first_seen": "${first_seen}",
+                "last_seen": "${last_seen}",
+                "object_id": "${object_id}",
+                "object_relation": "${object_relation}",
+                "sharing_group_id": "${sharing_group_id}",
+                "timestamp": "${timestamp}",
+                "to_ids": "${to_ids}",
+                "type": "${type}",
+                "uuid": "${uuid}",
+                "value": "${value}"
+              }
+  "/attributes/addTag/{attributeId}/{tagId}/local:{local}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add a tag to an attribute
+      operationId: Add_a_tag_to_an_attribute
+      parameters:
+        - in: path
+          name: attributeId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: tagId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: local
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/attributes/attributeStatistics/{context}/{percentage}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get the count of attributes per category
+      operationId: Get_the_count_of_attributes_per_category
+      parameters:
+        - in: path
+          name: context
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: percentage
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/attributes/delete/{attributeId}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete an attribute
+      operationId: Delete_an_attribute
+      parameters:
+        - in: path
+          name: attributeId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /attributes/describeTypes:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a list of the available attribute types
+      operationId: Get_a_list_of_the_available_attribute_types
+      parameters: []
+      requestBody:
+        content: {}
+  "/attributes/edit/{attributeId}":
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit an attribute
+      operationId: Edit_an_attribute
+      parameters:
+        - in: path
+          name: attributeId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/attributes/removeTag/{attributeId}/{tagId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Remove a tag from an attribute
+      operationId: Remove_a_tag_from_an_attribute
+      parameters:
+        - in: path
+          name: attributeId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: tagId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /attributes/restSearch:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: restSearch Get a filtered and paginated list of attributes
+      operationId: restSearch_Get_a_filtered_and_paginated_list_of_attributes
+      description: |
+        **This is the recommended endpoint for searching attributes.**
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "attackgalaxy": "${attackgalaxy}",
+              "attribute_timestamp": "${attribute_timestamp}",
+              "category": "${category}",
+              "decayingmodel": "${decayingmodel}",
+              "deleted": "${deleted}",
+              "enforcewarninglist": "${enforcewarninglist}",
+              "event_timestamp": "${event_timestamp}",
+              "eventid": "${eventid}",
+              "eventinfo": "${eventinfo}",
+              "excludedecayed": "${excludedecayed}",
+              "first_seen": "${first_seen}",
+              "from": "${from}",
+              "headerless": "${headerless}",
+              "includecontext": "${includecontext}",
+              "includecorrelations": "${includecorrelations}",
+              "includedecayscore": "${includedecayscore}",
+              "includeeventtags": "${includeeventtags}",
+              "includeeventuuid": "${includeeventuuid}",
+              "includefullmodel": "${includefullmodel}",
+              "includeproposals": "${includeproposals}",
+              "includesightings": "${includesightings}",
+              "includewarninglisthits": "${includewarninglisthits}",
+              "last": "${last}",
+              "last_seen": "${last_seen}",
+              "limit": "${limit}",
+              "modeloverrides": "${modeloverrides}",
+              "object_relation": "${object_relation}",
+              "org": "${org}",
+              "page": "${page}",
+              "publish_timestamp": "${publish_timestamp}",
+              "published": "${published}",
+              "requested_attributes": "${requested_attributes}",
+              "returnformat": "${returnformat}",
+              "score": "${score}",
+              "sharinggroup": "${sharinggroup}",
+              "tags": "${tags}",
+              "threat_level_id": "${threat_level_id}",
+              "timestamp": "${timestamp}",
+              "to": "${to}",
+              "to_ids": "${to_ids}",
+              "type": "${type}",
+              "uuid": "${uuid}",
+              "value": "${value}",
+              "value1": "${value1}",
+              "value2": "${value2}",
+              "withattachments": "${withattachments}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "attackgalaxy": "${attackgalaxy}",
+                "attribute_timestamp": "${attribute_timestamp}",
+                "category": "${category}",
+                "decayingmodel": "${decayingmodel}",
+                "deleted": "${deleted}",
+                "enforcewarninglist": "${enforcewarninglist}",
+                "event_timestamp": "${event_timestamp}",
+                "eventid": "${eventid}",
+                "eventinfo": "${eventinfo}",
+                "excludedecayed": "${excludedecayed}",
+                "first_seen": "${first_seen}",
+                "from": "${from}",
+                "headerless": "${headerless}",
+                "includecontext": "${includecontext}",
+                "includecorrelations": "${includecorrelations}",
+                "includedecayscore": "${includedecayscore}",
+                "includeeventtags": "${includeeventtags}",
+                "includeeventuuid": "${includeeventuuid}",
+                "includefullmodel": "${includefullmodel}",
+                "includeproposals": "${includeproposals}",
+                "includesightings": "${includesightings}",
+                "includewarninglisthits": "${includewarninglisthits}",
+                "last": "${last}",
+                "last_seen": "${last_seen}",
+                "limit": "${limit}",
+                "modeloverrides": "${modeloverrides}",
+                "object_relation": "${object_relation}",
+                "org": "${org}",
+                "page": "${page}",
+                "publish_timestamp": "${publish_timestamp}",
+                "published": "${published}",
+                "requested_attributes": "${requested_attributes}",
+                "returnformat": "${returnformat}",
+                "score": "${score}",
+                "sharinggroup": "${sharinggroup}",
+                "tags": "${tags}",
+                "threat_level_id": "${threat_level_id}",
+                "timestamp": "${timestamp}",
+                "to": "${to}",
+                "to_ids": "${to_ids}",
+                "type": "${type}",
+                "uuid": "${uuid}",
+                "value": "${value}",
+                "value1": "${value1}",
+                "value2": "${value2}",
+                "withattachments": "${withattachments}"
+              }
+  "/attributes/restore/{attributeId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Restore an attribute
+      operationId: Restore_an_attribute
+      parameters:
+        - in: path
+          name: attributeId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/attributes/view/{attributeId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get an attribute by ID
+      operationId: Get_an_attribute_by_ID
+      parameters:
+        - in: path
+          name: attributeId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /auth_keys:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get auth keys
+      operationId: Get_auth_keys
+      parameters: []
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Search auth keys
+      operationId: Search_auth_keys
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "allowed_ips": "[\"127.0.0.1\",\"127.0.0.2\"]",
+              "authkey_end": "",
+              "authkey_start": "",
+              "comment": ""
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "allowed_ips": "[\"127.0.0.1\",\"127.0.0.2\"]",
+                "authkey_end": "",
+                "authkey_start": "",
+                "comment": ""
+              }
+  "/auth_keys/add/{userId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add auth keys
+      operationId: Add_auth_keys
+      parameters:
+        - in: path
+          name: userId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/auth_keys/delete/{authKeyId}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete auth key
+      operationId: Delete_auth_key
+      parameters:
+        - in: path
+          name: authKeyId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/auth_keys/edit/{authKeyId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit auth key
+      operationId: Edit_auth_key
+      parameters:
+        - in: path
+          name: authKeyId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/auth_keys/view/{authKeyId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: View auth key
+      operationId: View_auth_key
+      parameters:
+        - in: path
+          name: authKeyId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /events:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a list of events
+      operationId: Get_a_list_of_events
+      parameters: []
+      requestBody:
+        content: {}
+  /events/add:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add event
+      operationId: Add_event
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "analysis": "${analysis}",
+              "attribute_count": "${attribute_count}",
+              "date": "${date}",
+              "disable_correlation": "${disable_correlation}",
+              "distribution": "${distribution}",
+              "event_creator_email": "${event_creator_email}",
+              "extends_uuid": "${extends_uuid}",
+              "info": "${info}",
+              "locked": "${locked}",
+              "org_id": "${org_id}",
+              "orgc_id": "${orgc_id}",
+              "proposal_email_lock": "${proposal_email_lock}",
+              "publish_timestamp": "${publish_timestamp}",
+              "published": "${published}",
+              "sharing_group_id": "${sharing_group_id}",
+              "sighting_timestamp": "${sighting_timestamp}",
+              "threat_level_id": "${threat_level_id}",
+              "timestamp": "${timestamp}",
+              "uuid": "${uuid}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "analysis": "${analysis}",
+                "attribute_count": "${attribute_count}",
+                "date": "${date}",
+                "disable_correlation": "${disable_correlation}",
+                "distribution": "${distribution}",
+                "event_creator_email": "${event_creator_email}",
+                "extends_uuid": "${extends_uuid}",
+                "info": "${info}",
+                "locked": "${locked}",
+                "org_id": "${org_id}",
+                "orgc_id": "${orgc_id}",
+                "proposal_email_lock": "${proposal_email_lock}",
+                "publish_timestamp": "${publish_timestamp}",
+                "published": "${published}",
+                "sharing_group_id": "${sharing_group_id}",
+                "sighting_timestamp": "${sighting_timestamp}",
+                "threat_level_id": "${threat_level_id}",
+                "timestamp": "${timestamp}",
+                "uuid": "${uuid}"
+              }
+  "/events/addTag/{eventId}/{tagId}/local:{local}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add event tag
+      operationId: Add_event_tag
+      parameters:
+        - in: path
+          name: eventId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: tagId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: local
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/events/delete/{eventId}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete event
+      operationId: Delete_event
+      parameters:
+        - in: path
+          name: eventId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/events/edit/{eventId}":
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit event
+      operationId: Edit_event
+      parameters:
+        - in: path
+          name: eventId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "analysis": "${analysis}",
+              "attribute_count": "${attribute_count}",
+              "date": "${date}",
+              "disable_correlation": "${disable_correlation}",
+              "distribution": "${distribution}",
+              "event_creator_email": "${event_creator_email}",
+              "extends_uuid": "${extends_uuid}",
+              "info": "${info}",
+              "locked": "${locked}",
+              "org_id": "${org_id}",
+              "orgc_id": "${orgc_id}",
+              "proposal_email_lock": "${proposal_email_lock}",
+              "publish_timestamp": "${publish_timestamp}",
+              "published": "${published}",
+              "sharing_group_id": "${sharing_group_id}",
+              "sighting_timestamp": "${sighting_timestamp}",
+              "threat_level_id": "${threat_level_id}",
+              "timestamp": "${timestamp}",
+              "uuid": "${uuid}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "analysis": "${analysis}",
+                "attribute_count": "${attribute_count}",
+                "date": "${date}",
+                "disable_correlation": "${disable_correlation}",
+                "distribution": "${distribution}",
+                "event_creator_email": "${event_creator_email}",
+                "extends_uuid": "${extends_uuid}",
+                "info": "${info}",
+                "locked": "${locked}",
+                "org_id": "${org_id}",
+                "orgc_id": "${orgc_id}",
+                "proposal_email_lock": "${proposal_email_lock}",
+                "publish_timestamp": "${publish_timestamp}",
+                "published": "${published}",
+                "sharing_group_id": "${sharing_group_id}",
+                "sighting_timestamp": "${sighting_timestamp}",
+                "threat_level_id": "${threat_level_id}",
+                "timestamp": "${timestamp}",
+                "uuid": "${uuid}"
+              }
+  /events/index:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Search events
+      operationId: Search_events
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/events/publish/{eventId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Publish an event
+      operationId: Publish_an_event
+      parameters:
+        - in: path
+          name: eventId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/events/removeTag/{eventId}/{tagId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Remove event tag
+      operationId: Remove_event_tag
+      parameters:
+        - in: path
+          name: eventId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: tagId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /events/restSearch:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: restSearch Get a filtered and paginated list of events
+      operationId: restSearch_Get_a_filtered_and_paginated_list_of_events
+      description: |
+        **This is the recommended endpoint for searching events.**
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "sgReferenceOnly": false
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "sgReferenceOnly": false
+              }
+  "/events/unpublish/{eventId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Unpublish an event
+      operationId: Unpublish_an_event
+      parameters:
+        - in: path
+          name: eventId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/events/view/{eventId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get event by ID
+      operationId: Get_event_by_ID
+      parameters:
+        - in: path
+          name: eventId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /feeds:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a list of feeds
+      operationId: Get_a_list_of_feeds
+      parameters: []
+      requestBody:
+        content: {}
+  /feeds/add:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add a feed
+      operationId: Add_a_feed
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/feeds/cacheFeeds/{cacheFeedsScope}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Cache feeds
+      operationId: Cache_feeds
+      parameters:
+        - in: path
+          name: cacheFeedsScope
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/feeds/disable/{feedId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Disable feed
+      operationId: Disable_feed
+      parameters:
+        - in: path
+          name: feedId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/feeds/edit/{feedId}":
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit a feed
+      operationId: Edit_a_feed
+      parameters:
+        - in: path
+          name: feedId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/feeds/enable/{feedId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Enable feed
+      operationId: Enable_feed
+      parameters:
+        - in: path
+          name: feedId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /feeds/fetchFromAllFeeds:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Fetch from all feeds
+      operationId: Fetch_from_all_feeds
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/feeds/fetchFromFeed/{feedId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Fetch from feed by ID
+      operationId: Fetch_from_feed_by_ID
+      parameters:
+        - in: path
+          name: feedId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/feeds/view/{feedId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a feed by ID
+      operationId: Get_a_feed_by_ID
+      parameters:
+        - in: path
+          name: feedId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /galaxies:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get galaxies
+      operationId: Get_galaxies
+      parameters: []
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Search galaxies
+      operationId: Search_galaxies
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/galaxies/attachCluster/{attachTargetId}/{attachTargetType}/local:{local}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Attach the galaxy cluster tag a given entity
+      operationId: Attach_the_galaxy_cluster_tag_a_given_entity
+      parameters:
+        - in: path
+          name: attachTargetId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: attachTargetType
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: local
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/galaxies/delete/{galaxyId}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete a galaxy
+      operationId: Delete_a_galaxy
+      parameters:
+        - in: path
+          name: galaxyId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/galaxies/export/{galaxyId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Export galaxy clusters
+      operationId: Export_galaxy_clusters
+      parameters:
+        - in: path
+          name: galaxyId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /galaxies/import:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Import a galaxy cluster
+      operationId: Import_a_galaxy_cluster
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /galaxies/update:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Force update the galaxies with the galaxy json definitions
+      operationId: Force_update_the_galaxies_with_the_galaxy_json_definitions
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/galaxies/view/{galaxyId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get galaxy by ID
+      operationId: Get_galaxy_by_ID
+      parameters:
+        - in: path
+          name: galaxyId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/galaxy_clusters/add/{galaxyId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add galaxy cluster
+      operationId: Add_galaxy_cluster
+      parameters:
+        - in: path
+          name: galaxyId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/galaxy_clusters/delete/{galaxyClusterId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete galaxy cluster
+      operationId: Delete_galaxy_cluster
+      parameters:
+        - in: path
+          name: galaxyClusterId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/galaxy_clusters/edit/{galaxyClusterId}":
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit galaxy cluster
+      operationId: Edit_galaxy_cluster
+      parameters:
+        - in: path
+          name: galaxyClusterId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/galaxy_clusters/index/{galaxyId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get galaxy clusters
+      operationId: Get_galaxy_clusters
+      parameters:
+        - in: path
+          name: galaxyId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Search galaxy clusters
+      operationId: Search_galaxy_clusters
+      parameters:
+        - in: path
+          name: galaxyId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "context": "all",
+              "searchall": "botnet"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "context": "all",
+                "searchall": "botnet"
+              }
+  "/galaxy_clusters/publish/{galaxyClusterId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Publish galaxy cluster
+      operationId: Publish_galaxy_cluster
+      parameters:
+        - in: path
+          name: galaxyClusterId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/galaxy_clusters/restore/{galaxyClusterId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Restore galaxy cluster
+      operationId: Restore_galaxy_cluster
+      parameters:
+        - in: path
+          name: galaxyClusterId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/galaxy_clusters/unpublish/{galaxyClusterId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Unpublish galaxy cluster
+      operationId: Unpublish_galaxy_cluster
+      parameters:
+        - in: path
+          name: galaxyClusterId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/galaxy_clusters/view/{galaxyClusterId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get galaxy cluster by ID
+      operationId: Get_galaxy_cluster_by_ID
+      parameters:
+        - in: path
+          name: galaxyClusterId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /noticelists:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a list of noticelists
+      operationId: Get_a_list_of_noticelists
+      parameters: []
+      requestBody:
+        content: {}
+  "/noticelists/toggleEnable/{noticelistId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Enabledisable noticelist
+      operationId: Enabledisable_noticelist
+      parameters:
+        - in: path
+          name: noticelistId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /noticelists/update:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Update noticelists
+      operationId: Update_noticelists
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/noticelists/view/{noticelistId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a noticelist by ID
+      operationId: Get_a_noticelist_by_ID
+      parameters:
+        - in: path
+          name: noticelistId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/objects/add/{eventId}/{objectTemplateId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add an object to an event
+      operationId: Add_an_object_to_an_event
+      parameters:
+        - in: path
+          name: eventId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: objectTemplateId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/objects/delete/{objectId}/{hardDelete}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete object
+      operationId: Delete_object
+      parameters:
+        - in: path
+          name: objectId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: hardDelete
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /objects/restsearch:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: restSearch Get a filtered and paginated list of objects
+      operationId: restSearch_Get_a_filtered_and_paginated_list_of_objects
+      description: |
+        **This is the recommended endpoint for searching objects.**
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "allow_proposal_blocking": "${allow_proposal_blocking}",
+              "attackgalaxy": "${attackgalaxy}",
+              "attribute_timestamp": "${attribute_timestamp}",
+              "category": "${category}",
+              "comment": "${comment}",
+              "date": "${date}",
+              "decayingmodel": "${decayingmodel}",
+              "deleted": "${deleted}",
+              "enforcewarninglist": "${enforcewarninglist}",
+              "event_timestamp": "${event_timestamp}",
+              "eventid": "${eventid}",
+              "eventinfo": "${eventinfo}",
+              "excludedecayed": "${excludedecayed}",
+              "first_seen": "${first_seen}",
+              "from": "${from}",
+              "ignore": "${ignore}",
+              "includealltags": "${includealltags}",
+              "includecontext": "${includecontext}",
+              "includecorrelations": "${includecorrelations}",
+              "includedecayscore": "${includedecayscore}",
+              "includeeventtags": "${includeeventtags}",
+              "includeeventuuid": "${includeeventuuid}",
+              "includefullmodel": "${includefullmodel}",
+              "includeproposals": "${includeproposals}",
+              "includesightingdb": "${includesightingdb}",
+              "includesightings": "${includesightings}",
+              "includewarninglisthits": "${includewarninglisthits}",
+              "include_event_uuid": "${include_event_uuid}",
+              "last": "${last}",
+              "last_seen": "${last_seen}",
+              "limit": "${limit}",
+              "metadata": "${metadata}",
+              "modeloverrides": "${modeloverrides}",
+              "object_name": "${object_name}",
+              "object_relation": "${object_relation}",
+              "object_template_uuid": "${object_template_uuid}",
+              "object_template_version": "${object_template_version}",
+              "org": "${org}",
+              "page": "${page}",
+              "publish_timestamp": "${publish_timestamp}",
+              "published": "${published}",
+              "quickfilter": "${quickfilter}",
+              "returnformat": "${returnformat}",
+              "score": "${score}",
+              "searchall": "${searchall}",
+              "tags": "${tags}",
+              "timestamp": "${timestamp}",
+              "to": "${to}",
+              "to_ids": "${to_ids}",
+              "type": "${type}",
+              "uuid": "${uuid}",
+              "value": "${value}",
+              "withattachments": "${withattachments}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "allow_proposal_blocking": "${allow_proposal_blocking}",
+                "attackgalaxy": "${attackgalaxy}",
+                "attribute_timestamp": "${attribute_timestamp}",
+                "category": "${category}",
+                "comment": "${comment}",
+                "date": "${date}",
+                "decayingmodel": "${decayingmodel}",
+                "deleted": "${deleted}",
+                "enforcewarninglist": "${enforcewarninglist}",
+                "event_timestamp": "${event_timestamp}",
+                "eventid": "${eventid}",
+                "eventinfo": "${eventinfo}",
+                "excludedecayed": "${excludedecayed}",
+                "first_seen": "${first_seen}",
+                "from": "${from}",
+                "ignore": "${ignore}",
+                "includealltags": "${includealltags}",
+                "includecontext": "${includecontext}",
+                "includecorrelations": "${includecorrelations}",
+                "includedecayscore": "${includedecayscore}",
+                "includeeventtags": "${includeeventtags}",
+                "includeeventuuid": "${includeeventuuid}",
+                "includefullmodel": "${includefullmodel}",
+                "includeproposals": "${includeproposals}",
+                "includesightingdb": "${includesightingdb}",
+                "includesightings": "${includesightings}",
+                "includewarninglisthits": "${includewarninglisthits}",
+                "include_event_uuid": "${include_event_uuid}",
+                "last": "${last}",
+                "last_seen": "${last_seen}",
+                "limit": "${limit}",
+                "metadata": "${metadata}",
+                "modeloverrides": "${modeloverrides}",
+                "object_name": "${object_name}",
+                "object_relation": "${object_relation}",
+                "object_template_uuid": "${object_template_uuid}",
+                "object_template_version": "${object_template_version}",
+                "org": "${org}",
+                "page": "${page}",
+                "publish_timestamp": "${publish_timestamp}",
+                "published": "${published}",
+                "quickfilter": "${quickfilter}",
+                "returnformat": "${returnformat}",
+                "score": "${score}",
+                "searchall": "${searchall}",
+                "tags": "${tags}",
+                "timestamp": "${timestamp}",
+                "to": "${to}",
+                "to_ids": "${to_ids}",
+                "type": "${type}",
+                "uuid": "${uuid}",
+                "value": "${value}",
+                "withattachments": "${withattachments}"
+              }
+  "/objects/view/{objectId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get object by ID
+      operationId: Get_object_by_ID
+      parameters:
+        - in: path
+          name: objectId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /organisations:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get organisations
+      operationId: Get_organisations
+      parameters: []
+      requestBody:
+        content: {}
+  "/organisations/view/{organisationId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get organisation by ID
+      operationId: Get_organisation_by_ID
+      parameters:
+        - in: path
+          name: organisationId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /servers:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get servers
+      operationId: Get_servers
+      parameters: []
+      requestBody:
+        content: {}
+  /servers/add:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add server
+      operationId: Add_server
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "authkey": "${authkey}",
+              "cache_timestamp": "${cache_timestamp}",
+              "caching_enabled": "${caching_enabled}",
+              "cert_file": "${cert_file}",
+              "client_cert_file": "${client_cert_file}",
+              "internal": "${internal}",
+              "lastpulledid": "${lastpulledid}",
+              "lastpushedid": "${lastpushedid}",
+              "name": "${name}",
+              "org_id": "${org_id}",
+              "organization": "${organization}",
+              "priority": "${priority}",
+              "publish_without_email": "${publish_without_email}",
+              "pull": "${pull}",
+              "pull_galaxy_clusters": "${pull_galaxy_clusters}",
+              "pull_rules": "${pull_rules}",
+              "push": "${push}",
+              "push_galaxy_clusters": "${push_galaxy_clusters}",
+              "push_rules": "${push_rules}",
+              "push_sightings": "${push_sightings}",
+              "remote_org_id": "${remote_org_id}",
+              "self_signed": "${self_signed}",
+              "skip_proxy": "${skip_proxy}",
+              "unpublish_event": "${unpublish_event}",
+              "url": "${url}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "authkey": "${authkey}",
+                "cache_timestamp": "${cache_timestamp}",
+                "caching_enabled": "${caching_enabled}",
+                "cert_file": "${cert_file}",
+                "client_cert_file": "${client_cert_file}",
+                "internal": "${internal}",
+                "lastpulledid": "${lastpulledid}",
+                "lastpushedid": "${lastpushedid}",
+                "name": "${name}",
+                "org_id": "${org_id}",
+                "organization": "${organization}",
+                "priority": "${priority}",
+                "publish_without_email": "${publish_without_email}",
+                "pull": "${pull}",
+                "pull_galaxy_clusters": "${pull_galaxy_clusters}",
+                "pull_rules": "${pull_rules}",
+                "push": "${push}",
+                "push_galaxy_clusters": "${push_galaxy_clusters}",
+                "push_rules": "${push_rules}",
+                "push_sightings": "${push_sightings}",
+                "remote_org_id": "${remote_org_id}",
+                "self_signed": "${self_signed}",
+                "skip_proxy": "${skip_proxy}",
+                "unpublish_event": "${unpublish_event}",
+                "url": "${url}"
+              }
+  /servers/cache:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Cache server
+      operationId: Cache_server
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /servers/createSync:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Create sync
+      operationId: Create_sync
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/servers/delete/{serverId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete server
+      operationId: Delete_server
+      parameters:
+        - in: path
+          name: serverId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/servers/edit/{serverId}":
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit server
+      operationId: Edit_server
+      parameters:
+        - in: path
+          name: serverId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  /servers/getInstanceUUID:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get instance UUID
+      operationId: Get_instance_UUID
+      parameters: []
+      requestBody:
+        content: {}
+  /servers/getPyMISPVersion:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get current instance PyMISP version
+      operationId: Get_current_instance_PyMISP_version
+      parameters: []
+      requestBody:
+        content: {}
+  "/servers/getSetting/{settingName}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get server setting by name
+      operationId: Get_server_setting_by_name
+      parameters:
+        - in: path
+          name: settingName
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /servers/getVersion:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get current instance version
+      operationId: Get_current_instance_version
+      parameters: []
+      requestBody:
+        content: {}
+  /servers/getWorkers:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get workers
+      operationId: Get_workers
+      parameters: []
+      requestBody:
+        content: {}
+  /servers/import:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Import server
+      operationId: Import_server
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /servers/killAllWorkers:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Kill all workers
+      operationId: Kill_all_workers
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/servers/pull/{serverId}/{pullTechnique}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Pull server
+      operationId: Pull_server
+      parameters:
+        - in: path
+          name: serverId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pullTechnique
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/servers/push/{serverId}/{pushTechnique}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Push server
+      operationId: Push_server
+      parameters:
+        - in: path
+          name: serverId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pushTechnique
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /servers/restartDeadWorkers:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Restart dead workers
+      operationId: Restart_dead_workers
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /servers/restartWorkers:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Restart workers
+      operationId: Restart_workers
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /servers/serverSettings:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get current instance settings and diagnostics
+      operationId: Get_current_instance_settings_and_diagnostics
+      parameters: []
+      requestBody:
+        content: {}
+  "/servers/serverSettingsEdit/{settingName}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit server setting
+      operationId: Edit_server_setting
+      parameters:
+        - in: path
+          name: settingName
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/servers/startWorker/{workerType}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Start worker
+      operationId: Start_worker
+      parameters:
+        - in: path
+          name: workerType
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/servers/stopWorker/{workerPid}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Stop worker
+      operationId: Stop_worker
+      parameters:
+        - in: path
+          name: workerPid
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /servers/update:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Update server
+      operationId: Update_server
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /sharing_groups:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a list of sharing groups
+      operationId: Get_a_list_of_sharing_groups
+      parameters: []
+      requestBody:
+        content: {}
+  /sharing_groups/add:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add a sharing group
+      operationId: Add_a_sharing_group
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/sharing_groups/addOrg/{sharingGroupId}/{organisationId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add an organisation to a sharing group
+      operationId: Add_an_organisation_to_a_sharing_group
+      parameters:
+        - in: path
+          name: sharingGroupId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: organisationId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/sharing_groups/addServer/{sharingGroupId}/{serverId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add a server to a sharing group
+      operationId: Add_a_server_to_a_sharing_group
+      parameters:
+        - in: path
+          name: sharingGroupId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: serverId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/sharing_groups/delete/{sharingGroupId}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete a sharing group
+      operationId: Delete_a_sharing_group
+      parameters:
+        - in: path
+          name: sharingGroupId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/sharing_groups/edit/{sharingGroupId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit a sharing group
+      operationId: Edit_a_sharing_group
+      parameters:
+        - in: path
+          name: sharingGroupId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/sharing_groups/removeOrg/{sharingGroupId}/{organisationId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Remove an organisation from a sharing group
+      operationId: Remove_an_organisation_from_a_sharing_group
+      parameters:
+        - in: path
+          name: sharingGroupId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: organisationId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/sharing_groups/removeServer/{sharingGroupServerId}/{serverId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Remove a server from a sharing group
+      operationId: Remove_a_server_from_a_sharing_group
+      parameters:
+        - in: path
+          name: sharingGroupServerId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: serverId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/sharing_groups/view/{sharingGroupId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a sharing group by ID
+      operationId: Get_a_sharing_group_by_ID
+      parameters:
+        - in: path
+          name: sharingGroupId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /sightings/add:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add sightings of a list of values
+      operationId: Add_sightings_of_a_list_of_values
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/sightings/add/{attributeId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add sighting of an attribute
+      operationId: Add_sighting_of_an_attribute
+      parameters:
+        - in: path
+          name: attributeId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/sightings/delete/{sightingId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete sighting
+      operationId: Delete_sighting
+      parameters:
+        - in: path
+          name: sightingId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/sightings/index/{eventId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get sightings by event ID
+      operationId: Get_sightings_by_event_ID
+      parameters:
+        - in: path
+          name: eventId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /tags:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get tags
+      operationId: Get_tags
+      parameters: []
+      requestBody:
+        content: {}
+  /tags/add:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Add tag
+      operationId: Add_tag
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "colour": "${colour}",
+              "exportable": "${exportable}",
+              "hide_tag": "${hide_tag}",
+              "inherited": "${inherited}",
+              "is_custom_galaxy": "${is_custom_galaxy}",
+              "is_galaxy": "${is_galaxy}",
+              "name": "${name}",
+              "numerical_value": "${numerical_value}",
+              "org_id": "${org_id}",
+              "user_id": "${user_id}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "colour": "${colour}",
+                "exportable": "${exportable}",
+                "hide_tag": "${hide_tag}",
+                "inherited": "${inherited}",
+                "is_custom_galaxy": "${is_custom_galaxy}",
+                "is_galaxy": "${is_galaxy}",
+                "name": "${name}",
+                "numerical_value": "${numerical_value}",
+                "org_id": "${org_id}",
+                "user_id": "${user_id}"
+              }
+  "/tags/delete/{tagId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete tag
+      operationId: Delete_tag
+      parameters:
+        - in: path
+          name: tagId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/tags/edit/{tagId}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Edit tag
+      operationId: Edit_tag
+      parameters:
+        - in: path
+          name: tagId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "colour": "${colour}",
+              "exportable": "${exportable}",
+              "hide_tag": "${hide_tag}",
+              "inherited": "${inherited}",
+              "is_custom_galaxy": "${is_custom_galaxy}",
+              "is_galaxy": "${is_galaxy}",
+              "name": "${name}",
+              "numerical_value": "${numerical_value}",
+              "org_id": "${org_id}",
+              "user_id": "${user_id}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "colour": "${colour}",
+                "exportable": "${exportable}",
+                "hide_tag": "${hide_tag}",
+                "inherited": "${inherited}",
+                "is_custom_galaxy": "${is_custom_galaxy}",
+                "is_galaxy": "${is_galaxy}",
+                "name": "${name}",
+                "numerical_value": "${numerical_value}",
+                "org_id": "${org_id}",
+                "user_id": "${user_id}"
+              }
+  /tags/search:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Search tag by POST
+      operationId: Search_tag_by_POST
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: '{"tagSearchTerm":"${tag_name}"}'
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          multiline: false
+          description: Header generated by shuffler.io OpenAPI
+          required: false
+          example: application/json
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          multiline: false
+          description: Header generated by shuffler.io OpenAPI
+          required: false
+          example: application/json
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: '{"tagSearchTerm":"${tag_name}"}'
+  "/tags/search/{tagSearchTerm}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Search tag
+      operationId: Search_tag
+      parameters:
+        - in: path
+          name: tagSearchTerm
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/tags/view/{tagId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get tag by ID
+      operationId: Get_tag_by_ID
+      parameters:
+        - in: path
+          name: tagId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /taxonomies:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get taxonomies
+      operationId: Get_taxonomies
+      parameters: []
+      requestBody:
+        content: {}
+  "/taxonomies/disable/{taxonomyIdParameter}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Disable taxonomy
+      operationId: Disable_taxonomy
+      parameters:
+        - in: path
+          name: taxonomyIdParameter
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/taxonomies/enable/{taxonomyIdParameter}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Enable taxonomy
+      operationId: Enable_taxonomy
+      parameters:
+        - in: path
+          name: taxonomyIdParameter
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/taxonomies/export/{taxonomyIdParameter}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: "Export taxonomy "
+      operationId: Export_taxonomy_
+      parameters:
+        - in: path
+          name: taxonomyIdParameter
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/taxonomies/taxonomy_tags/{taxonomyIdParameter}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: "Get a taxonomy extended with tags used in events and attributes "
+      operationId: Get_a_taxonomy_extended_with_tags_used_in_events_and_attributes_
+      parameters:
+        - in: path
+          name: taxonomyIdParameter
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /taxonomies/update:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Update taxonomies
+      operationId: Update_taxonomies
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/taxonomies/view/{taxonomyIdParameter}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a taxonomy by ID
+      operationId: Get_a_taxonomy_by_ID
+      parameters:
+        - in: path
+          name: taxonomyIdParameter
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /user_settings:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get user settings
+      operationId: Get_user_settings
+      parameters: []
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Search user settings
+      operationId: Search_user_settings
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: "{}"
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: "{}"
+  "/user_settings/delete/{userSettingId}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete user setting by id
+      operationId: Delete_user_setting_by_id
+      parameters:
+        - in: path
+          name: userSettingId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/user_settings/getSetting/{userId}/{userSettingName}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get user setting by id
+      operationId: Get_user_setting_by_id
+      parameters:
+        - in: path
+          name: userId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: userSettingName
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/user_settings/setSetting/{userId}/{userSettingName}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Set user setting
+      operationId: Set_user_setting
+      parameters:
+        - in: path
+          name: userId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: userSettingName
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/user_settings/view/{userSettingId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get user setting by id
+      operationId: Get_user_setting_by_id
+      parameters:
+        - in: path
+          name: userSettingId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/users/initiatePasswordReset/{userId}/{firstTimeReset}":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Reset user password
+      operationId: Reset_user_password
+      parameters:
+        - in: path
+          name: userId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: firstTimeReset
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/users/totp_delete/{userId}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Delete user TOTP
+      operationId: Delete_user_TOTP
+      parameters:
+        - in: path
+          name: userId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /warninglists:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get a list of warninglists
+      operationId: Get_a_list_of_warninglists
+      parameters: []
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Search warninglists
+      operationId: Search_warninglists
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /warninglists/checkValue:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Check if a list of values matches any warninglists
+      operationId: Check_if_a_list_of_values_matches_any_warninglists
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /warninglists/toggleEnable:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Enabledisable warninglists
+      operationId: Enabledisable_warninglists
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /warninglists/update:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Update warninglists
+      operationId: Update_warninglists
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/warninglists/view/{warninglistId}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: Get warninglist by ID
+      operationId: Get_warninglist_by_ID
+      parameters:
+        - in: path
+          name: warninglistId
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: ""
+tags:
+  - name: Attributes
+  - name: Events
+  - name: Galaxies
+  - name: Galaxy Clusters
+  - name: Users
+  - name: Organisations
+  - name: Servers
+  - name: Sharing Groups
+  - name: Feeds
