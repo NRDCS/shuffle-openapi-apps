@@ -1,0 +1,2844 @@
+openapi: 3.0.0
+info:
+  title: IntelOwl
+  version: "1.0"
+  x-logo: data:image/png;base64,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
+  contact:
+    email: support@shuffler.io
+    name: "@Anonymous Shuffle User"
+    url: https://twitter.com/shuffleio
+  x-categories:
+    - Intel
+servers:
+  - url: ""
+basePath: /
+schemes:
+  - ""
+paths:
+  /api/analyze_file:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzers_running": [],
+                    "connectors_running": [],
+                    "job_id": 0,
+                    "playbooks_running": [],
+                    "status": "",
+                    "warnings": []
+                  }
+      summary: analyze_file_create
+      operationId: analyze_file_create
+      description: This endpoint allows to start a Job related for a single File.
+        Retained for retro-compatibility
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "analyzers_requested": "${analyzers_requested}",
+              "connectors_requested": "${connectors_requested}",
+              "file": "${file}",
+              "file_mimetype": "${file_mimetype}",
+              "file_name": "${file_name}",
+              "id": "${id}",
+              "playbooks_requested": "${playbooks_requested}",
+              "runtime_configuration": "${runtime_configuration}",
+              "tags_labels": "${tags_labels}",
+              "tlp": "${tlp}",
+              "user": "${user}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "analyzers_requested": "${analyzers_requested}",
+                "connectors_requested": "${connectors_requested}",
+                "file": "${file}",
+                "file_mimetype": "${file_mimetype}",
+                "file_name": "${file_name}",
+                "id": "${id}",
+                "playbooks_requested": "${playbooks_requested}",
+                "runtime_configuration": "${runtime_configuration}",
+                "tags_labels": "${tags_labels}",
+                "tlp": "${tlp}",
+                "user": "${user}"
+              }
+  /api/analyze_multiple_files:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "count": false,
+                    "results": []
+                  }
+      summary: analyze_multiple_files_create
+      operationId: analyze_multiple_files_create
+      description: This endpoint allows to start Jobs related to multiple Files
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "file_mimetypes": "${file_mimetypes}",
+              "file_names": "${file_names}",
+              "files": "${files}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "file_mimetypes": "${file_mimetypes}",
+                "file_names": "${file_names}",
+                "files": "${files}"
+              }
+  /api/analyze_multiple_observables:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "count": false,
+                    "results": []
+                  }
+      summary: analyze_multiple_observables_create
+      operationId: analyze_multiple_observables_create
+      description: |-
+        This endpoint allows to start Jobs related to multiple observables.
+                         Observable parameter must be composed like this:
+                         [(<observable_classification>, <observable_name>), ...]
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "observables": "${observables}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "observables": "${observables}"
+              }
+  /api/analyze_observable:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzers_running": [],
+                    "connectors_running": [],
+                    "job_id": 0,
+                    "playbooks_running": [],
+                    "status": "",
+                    "warnings": []
+                  }
+      summary: analyze_observable_create
+      operationId: analyze_observable_create
+      description: This endpoint allows to start a Job related to an observable.
+        Retained for retro-compatibility
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "analyzers_requested": "${analyzers_requested}",
+              "connectors_requested": "${connectors_requested}",
+              "id": "${id}",
+              "observable_classification": "${observable_classification}",
+              "observable_name": "${observable_name}",
+              "runtime_configuration": "${runtime_configuration}",
+              "tags_labels": "${tags_labels}",
+              "tlp": "${tlp}",
+              "user": "${user}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "analyzers_requested": "${analyzers_requested}",
+                "connectors_requested": "${connectors_requested}",
+                "id": "${id}",
+                "observable_classification": "${observable_classification}",
+                "observable_name": "${observable_name}",
+                "runtime_configuration": "${runtime_configuration}",
+                "tags_labels": "${tags_labels}",
+                "tlp": "${tlp}",
+                "user": "${user}"
+              }
+  "/api/analyzer/{name}/healthcheck":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "status": false
+                  }
+      summary: analyzer_healthcheck_retrieve
+      operationId: analyzer_healthcheck_retrieve
+      description: "Health Check: if server instance associated with plugin is up or not"
+      parameters:
+        - in: path
+          name: name
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/api/analyzer/{name}/update":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "detail": "",
+                    "status": false
+                  }
+      summary: analyzer_update_create
+      operationId: analyzer_update_create
+      description: Update plugin with latest configuration
+      parameters:
+        - in: path
+          name: name
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /api/ask_analysis_availability:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "job_id": "",
+                    "status": ""
+                  }
+      summary: ask_analysis_availability_create
+      operationId: ask_analysis_availability_create
+      description: >-2
+        
+            This is useful to avoid repeating the same analysis multiple times.
+            By default this API checks if there are existing analysis related to the md5 in
+            status "running" or "reported_without_fails"
+            Also, you need to specify the analyzers needed because, otherwise, it is
+            highly probable that you won't get all the results that you expect
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "analyzers": "${analyzers}",
+              "analyzers_requested": "${analyzers_requested}",
+              "analyzers_to_execute": "${analyzers_to_execute}",
+              "connectors_requested": "${connectors_requested}",
+              "connectors_to_execute": "${connectors_to_execute}",
+              "errors": "${errors}",
+              "file": "${file}",
+              "file_mimetype": "${file_mimetype}",
+              "file_name": "${file_name}",
+              "finished_analysis_time": "${finished_analysis_time}",
+              "id": "${id}",
+              "is_sample": "${is_sample}",
+              "md5": "${md5}",
+              "minutes_ago": "${minutes_ago}",
+              "observable_classification": "${observable_classification}",
+              "observable_name": "${observable_name}",
+              "playbooks": "${playbooks}",
+              "playbooks_requested": "${playbooks_requested}",
+              "playbooks_to_execute": "${playbooks_to_execute}",
+              "process_time": "${process_time}",
+              "received_request_time": "${received_request_time}",
+              "running_only": "${running_only}",
+              "status": "${status}",
+              "tags": "${tags}",
+              "tlp": "${tlp}",
+              "user": "${user}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "analyzers": "${analyzers}",
+                "analyzers_requested": "${analyzers_requested}",
+                "analyzers_to_execute": "${analyzers_to_execute}",
+                "connectors_requested": "${connectors_requested}",
+                "connectors_to_execute": "${connectors_to_execute}",
+                "errors": "${errors}",
+                "file": "${file}",
+                "file_mimetype": "${file_mimetype}",
+                "file_name": "${file_name}",
+                "finished_analysis_time": "${finished_analysis_time}",
+                "id": "${id}",
+                "is_sample": "${is_sample}",
+                "md5": "${md5}",
+                "minutes_ago": "${minutes_ago}",
+                "observable_classification": "${observable_classification}",
+                "observable_name": "${observable_name}",
+                "playbooks": "${playbooks}",
+                "playbooks_requested": "${playbooks_requested}",
+                "playbooks_to_execute": "${playbooks_to_execute}",
+                "process_time": "${process_time}",
+                "received_request_time": "${received_request_time}",
+                "running_only": "${running_only}",
+                "status": "${status}",
+                "tags": "${tags}",
+                "tlp": "${tlp}",
+                "user": "${user}"
+              }
+  /api/ask_multi_analysis_availability:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "count": 0,
+                    "results": []
+                  }
+      summary: ask_multi_analysis_availability_create
+      operationId: ask_multi_analysis_availability_create
+      description: >-2
+        
+            This is useful to avoid repeating the same analysis multiple times.
+            By default this API checks if there are existing analysis related to the md5 in
+            status "running" or "reported_without_fails"
+            Also, you need to specify the analyzers needed because, otherwise, it is
+            highly probable that you won't get all the results that you expect.
+            NOTE: This API is similar to ask_analysis_availability, but it allows multiple
+            md5s to be checked at the same time.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "count": "${count}",
+              "results": "${results}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "count": "${count}",
+                "results": "${results}"
+              }
+  /api/auth/apiaccess:
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: auth_apiaccess_destroy
+      operationId: auth_apiaccess_destroy
+      description: |-
+        Durin's APIAccessTokenView.
+
+        - ``GET`` -> get token-client pair info
+        - ``POST`` -> create and get token-client pair info
+        - ``DELETE`` -> delete existing API access token
+
+        .. versionadded:: 1.0.0
+      parameters: []
+      requestBody:
+        content: {}
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: auth_apiaccess_retrieve
+      operationId: auth_apiaccess_retrieve
+      description: |-
+        Durin's APIAccessTokenView.
+
+        - ``GET`` -> get token-client pair info
+        - ``POST`` -> create and get token-client pair info
+        - ``DELETE`` -> delete existing API access token
+
+        .. versionadded:: 1.0.0
+      parameters: []
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: auth_apiaccess_create
+      operationId: auth_apiaccess_create
+      description: |-
+        Durin's APIAccessTokenView.
+
+        - ``GET`` -> get token-client pair info
+        - ``POST`` -> create and get token-client pair info
+        - ``DELETE`` -> delete existing API access token
+
+        .. versionadded:: 1.0.0
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /api/auth/google:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: auth_google_retrieve
+      operationId: auth_google_retrieve
+      description: This endpoint redirects to Google OAuth login.
+      parameters: []
+      requestBody:
+        content: {}
+  /api/auth/google-callback:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: auth_google_callback_retrieve
+      operationId: auth_google_callback_retrieve
+      description: >-
+        Durin's Login View.
+
+
+        This view will return a JSON response when valid ``username``, ``password`` and
+
+        (if not overwritten) ``client`` fields are POSTed to the view using
+
+        form data or JSON.
+
+
+        It uses the default serializer provided by
+
+        Django-Rest-Framework (``rest_framework.authtoken.serializers.AuthTokenSerializer``)
+
+        to validate the user credentials.
+
+
+        It is possible to customize LoginView behaviour by overriding the following
+
+        helper methods:
+      parameters: []
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: auth_google_callback_create
+      operationId: auth_google_callback_create
+      description: >-
+        Durin's Login View.
+
+
+        This view will return a JSON response when valid ``username``, ``password`` and
+
+        (if not overwritten) ``client`` fields are POSTed to the view using
+
+        form data or JSON.
+
+
+        It uses the default serializer provided by
+
+        Django-Rest-Framework (``rest_framework.authtoken.serializers.AuthTokenSerializer``)
+
+        to validate the user credentials.
+
+
+        It is possible to customize LoginView behaviour by overriding the following
+
+        helper methods:
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /api/auth/login:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: auth_login_create
+      operationId: auth_login_create
+      description: >-
+        Durin's Login View.
+
+
+        This view will return a JSON response when valid ``username``, ``password`` and
+
+        (if not overwritten) ``client`` fields are POSTed to the view using
+
+        form data or JSON.
+
+
+        It uses the default serializer provided by
+
+        Django-Rest-Framework (``rest_framework.authtoken.serializers.AuthTokenSerializer``)
+
+        to validate the user credentials.
+
+
+        It is possible to customize LoginView behaviour by overriding the following
+
+        helper methods:
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /api/auth/logout:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: auth_logout_create
+      operationId: auth_logout_create
+      description: |-
+        Durin's Logout View.
+
+        This view accepts only a post request with an empty body.
+        It responds to Durin Token Authentication. On a successful request,
+
+        1. The token used to authenticate is deleted from
+           the database and can no longer be used to authenticate.
+
+        2. :meth:`django.contrib.auth.signals.user_logged_out` is called.
+
+        :returns: 204 (No content)
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /api/auth/sessions:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: auth_sessions_list
+      operationId: auth_sessions_list
+      description: |-
+        Durin's TokenSessionsViewSet.
+
+        - Returns list of active sessions of authed user.
+        - Only ``list()`` and ``delete()`` operations.
+
+        .. versionadded:: 1.0.0
+      parameters:
+        - in: query
+          name: ordering
+          description: Which field to use when ordering the results.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/api/auth/sessions/{id}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: auth_sessions_destroy
+      operationId: auth_sessions_destroy
+      description: |-
+        Durin's TokenSessionsViewSet.
+
+        - Returns list of active sessions of authed user.
+        - Only ``list()`` and ``delete()`` operations.
+
+        .. versionadded:: 1.0.0
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/api/connector/{name}/healthcheck":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "status": false
+                  }
+      summary: connector_healthcheck_retrieve
+      operationId: connector_healthcheck_retrieve
+      description: "Health Check: if server instance associated with plugin is up or not"
+      parameters:
+        - in: path
+          name: name
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /api/get_analyzer_configs:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "description": "",
+                    "disabled": false,
+                    "docker_based": false,
+                    "extends": "",
+                    "external_service": false,
+                    "leaks_info": false,
+                    "name": "",
+                    "not_supported_filetypes": [],
+                    "observable_supported": [],
+                    "params": [],
+                    "python_module": "",
+                    "run_hash": false,
+                    "secrets": [],
+                    "supported_filetypes": [],
+                    "verification": []
+                  }
+      summary: get_analyzer_configs_retrieve
+      operationId: get_analyzer_configs_retrieve
+      description: >-2
+        
+                Get and parse the `analyzer_config.json` file,
+                can be useful if you want to choose the analyzers programmatically
+      parameters: []
+      requestBody:
+        content: {}
+  /api/get_connector_configs:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "description": "",
+                    "disabled": false,
+                    "extends": "",
+                    "name": "",
+                    "params": [],
+                    "python_module": "",
+                    "run_on_failure": false,
+                    "secrets": [],
+                    "verification": []
+                  }
+      summary: get_connector_configs_retrieve
+      operationId: get_connector_configs_retrieve
+      description: Get and parse the `connector_config.json` file
+      parameters: []
+      requestBody:
+        content: {}
+  /api/get_playbook_configs:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzers": [],
+                    "config": [],
+                    "connectors": [],
+                    "description": "",
+                    "disabled": false,
+                    "extends": "",
+                    "name": "",
+                    "params": [],
+                    "python_module": "",
+                    "secrets": [],
+                    "supports": [],
+                    "verification": []
+                  }
+      summary: get_playbook_configs_retrieve
+      operationId: get_playbook_configs_retrieve
+      description: Get and parse the `playbook_config.json` file,
+      parameters: []
+      requestBody:
+        content: {}
+  /api/jobs:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "count": 0,
+                    "results": [],
+                    "total_pages": 0
+                  }
+      summary: jobs_list
+      operationId: jobs_list
+      description: "
+
+        \    REST endpoint to fetch list of jobs or retrieve/delete a
+        job with job ID.
+
+        \    Requires authentication.
+
+        \    "
+      parameters:
+        - in: query
+          name: file_mimetype
+          description: file_mimetype
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: file_name
+          description: file_name
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: finished_analysis_time__gte
+          description: finished_analysis_time__gte
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: finished_analysis_time__lte
+          description: finished_analysis_time__lte
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: is_sample
+          description: is_sample
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: md5
+          description: md5
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: name
+          description: name
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: observable_classification
+          description: observable_classification
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: observable_name
+          description: observable_name
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: ordering
+          description: Which field to use when ordering the results.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page
+          description: A page number within the paginated result set.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page_size
+          description: Number of results to return per page.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: received_request_time__gte
+          description: received_request_time__gte
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: received_request_time__lte
+          description: received_request_time__lte
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: status
+          description: status
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: tags
+          description: tags
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: tlp
+          description: tlp
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: type
+          description: type
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  /api/jobs/aggregate/file_mimetype:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzer_reports": [],
+                    "analyzers_requested": [],
+                    "analyzers_to_execute": [],
+                    "connector_reports": [],
+                    "connectors_requested": [],
+                    "connectors_to_execute": [],
+                    "errors": [],
+                    "file_mimetype": "",
+                    "file_name": "",
+                    "finished_analysis_time": "",
+                    "id": 0,
+                    "is_sample": false,
+                    "md5": "",
+                    "observable_name": "",
+                    "permissions": [],
+                    "playbooks_requested": [],
+                    "playbooks_to_execute": [],
+                    "process_time": [],
+                    "received_request_time": "",
+                    "tags": []
+                  }
+      summary: jobs_aggregate_file_mimetype_retrieve
+      operationId: jobs_aggregate_file_mimetype_retrieve
+      description: "
+
+        \    REST endpoint to fetch list of jobs or retrieve/delete a
+        job with job ID.
+
+        \    Requires authentication.
+
+        \    "
+      parameters: []
+      requestBody:
+        content: {}
+  /api/jobs/aggregate/md5:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzer_reports": [],
+                    "analyzers_requested": [],
+                    "analyzers_to_execute": [],
+                    "connector_reports": [],
+                    "connectors_requested": [],
+                    "connectors_to_execute": [],
+                    "errors": [],
+                    "file_mimetype": "",
+                    "file_name": "",
+                    "finished_analysis_time": "",
+                    "id": 0,
+                    "is_sample": false,
+                    "md5": "",
+                    "observable_name": "",
+                    "permissions": [],
+                    "playbooks_requested": [],
+                    "playbooks_to_execute": [],
+                    "process_time": [],
+                    "received_request_time": "",
+                    "tags": []
+                  }
+      summary: jobs_aggregate_md5_retrieve
+      operationId: jobs_aggregate_md5_retrieve
+      description: "
+
+        \    REST endpoint to fetch list of jobs or retrieve/delete a
+        job with job ID.
+
+        \    Requires authentication.
+
+        \    "
+      parameters: []
+      requestBody:
+        content: {}
+  /api/jobs/aggregate/observable_classification:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzer_reports": [],
+                    "analyzers_requested": [],
+                    "analyzers_to_execute": [],
+                    "connector_reports": [],
+                    "connectors_requested": [],
+                    "connectors_to_execute": [],
+                    "errors": [],
+                    "file_mimetype": "",
+                    "file_name": "",
+                    "finished_analysis_time": "",
+                    "id": 0,
+                    "is_sample": false,
+                    "md5": "",
+                    "observable_name": "",
+                    "permissions": [],
+                    "playbooks_requested": [],
+                    "playbooks_to_execute": [],
+                    "process_time": [],
+                    "received_request_time": "",
+                    "tags": []
+                  }
+      summary: jobs_aggregate_observable_classification_retrieve
+      operationId: jobs_aggregate_observable_classification_retrieve
+      description: "
+
+        \    REST endpoint to fetch list of jobs or retrieve/delete a
+        job with job ID.
+
+        \    Requires authentication.
+
+        \    "
+      parameters: []
+      requestBody:
+        content: {}
+  /api/jobs/aggregate/observable_name:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzer_reports": [],
+                    "analyzers_requested": [],
+                    "analyzers_to_execute": [],
+                    "connector_reports": [],
+                    "connectors_requested": [],
+                    "connectors_to_execute": [],
+                    "errors": [],
+                    "file_mimetype": "",
+                    "file_name": "",
+                    "finished_analysis_time": "",
+                    "id": 0,
+                    "is_sample": false,
+                    "md5": "",
+                    "observable_name": "",
+                    "permissions": [],
+                    "playbooks_requested": [],
+                    "playbooks_to_execute": [],
+                    "process_time": [],
+                    "received_request_time": "",
+                    "tags": []
+                  }
+      summary: jobs_aggregate_observable_name_retrieve
+      operationId: jobs_aggregate_observable_name_retrieve
+      description: "
+
+        \    REST endpoint to fetch list of jobs or retrieve/delete a
+        job with job ID.
+
+        \    Requires authentication.
+
+        \    "
+      parameters: []
+      requestBody:
+        content: {}
+  /api/jobs/aggregate/status:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzer_reports": [],
+                    "analyzers_requested": [],
+                    "analyzers_to_execute": [],
+                    "connector_reports": [],
+                    "connectors_requested": [],
+                    "connectors_to_execute": [],
+                    "errors": [],
+                    "file_mimetype": "",
+                    "file_name": "",
+                    "finished_analysis_time": "",
+                    "id": 0,
+                    "is_sample": false,
+                    "md5": "",
+                    "observable_name": "",
+                    "permissions": [],
+                    "playbooks_requested": [],
+                    "playbooks_to_execute": [],
+                    "process_time": [],
+                    "received_request_time": "",
+                    "tags": []
+                  }
+      summary: jobs_aggregate_status_retrieve
+      operationId: jobs_aggregate_status_retrieve
+      description: "
+
+        \    REST endpoint to fetch list of jobs or retrieve/delete a
+        job with job ID.
+
+        \    Requires authentication.
+
+        \    "
+      parameters: []
+      requestBody:
+        content: {}
+  /api/jobs/aggregate/type:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzer_reports": [],
+                    "analyzers_requested": [],
+                    "analyzers_to_execute": [],
+                    "connector_reports": [],
+                    "connectors_requested": [],
+                    "connectors_to_execute": [],
+                    "errors": [],
+                    "file_mimetype": "",
+                    "file_name": "",
+                    "finished_analysis_time": "",
+                    "id": 0,
+                    "is_sample": false,
+                    "md5": "",
+                    "observable_name": "",
+                    "permissions": [],
+                    "playbooks_requested": [],
+                    "playbooks_to_execute": [],
+                    "process_time": [],
+                    "received_request_time": "",
+                    "tags": []
+                  }
+      summary: jobs_aggregate_type_retrieve
+      operationId: jobs_aggregate_type_retrieve
+      description: "
+
+        \    REST endpoint to fetch list of jobs or retrieve/delete a
+        job with job ID.
+
+        \    Requires authentication.
+
+        \    "
+      parameters: []
+      requestBody:
+        content: {}
+  "/api/jobs/{id}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: jobs_destroy
+      operationId: jobs_destroy
+      description: "
+
+        \    REST endpoint to fetch list of jobs or retrieve/delete a
+        job with job ID.
+
+        \    Requires authentication.
+
+        \    "
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzer_reports": [],
+                    "analyzers_requested": [],
+                    "analyzers_to_execute": [],
+                    "connector_reports": [],
+                    "connectors_requested": [],
+                    "connectors_to_execute": [],
+                    "errors": [],
+                    "file_mimetype": "",
+                    "file_name": "",
+                    "finished_analysis_time": "",
+                    "id": 0,
+                    "is_sample": false,
+                    "md5": "",
+                    "observable_name": "",
+                    "permissions": [],
+                    "playbooks_requested": [],
+                    "playbooks_to_execute": [],
+                    "process_time": [],
+                    "received_request_time": "",
+                    "tags": []
+                  }
+      summary: jobs_retrieve
+      operationId: jobs_retrieve
+      description: "
+
+        \    REST endpoint to fetch list of jobs or retrieve/delete a
+        job with job ID.
+
+        \    Requires authentication.
+
+        \    "
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/api/jobs/{id}/download_sample":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: jobs_download_sample_retrieve
+      operationId: jobs_download_sample_retrieve
+      description: Download file/sample associated with a job
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/api/jobs/{id}/kill":
+    patch:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: jobs_kill_partial_update
+      operationId: jobs_kill_partial_update
+      description: Kill running job by closing celery tasks and marking as killed
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/api/jobs/{job_id}/analyzer/{name}/kill":
+    patch:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: jobs_analyzer_kill_partial_update
+      operationId: jobs_analyzer_kill_partial_update
+      description: Kill running plugin by closing celery task and marking as killed
+      parameters:
+        - in: path
+          name: job_id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/api/jobs/{job_id}/analyzer/{name}/retry":
+    patch:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: jobs_analyzer_retry_partial_update
+      operationId: jobs_analyzer_retry_partial_update
+      description: Retry a plugin run if it failed/was killed previously
+      parameters:
+        - in: path
+          name: job_id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/api/jobs/{job_id}/connector/{name}/kill":
+    patch:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: jobs_connector_kill_partial_update
+      operationId: jobs_connector_kill_partial_update
+      description: Kill running plugin by closing celery task and marking as killed
+      parameters:
+        - in: path
+          name: job_id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  "/api/jobs/{job_id}/connector/{name}/retry":
+    patch:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: jobs_connector_retry_partial_update
+      operationId: jobs_connector_retry_partial_update
+      description: Retry a plugin run if it failed/was killed previously
+      parameters:
+        - in: path
+          name: job_id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /api/me/access:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "access": [],
+                    "user": []
+                  }
+      summary: me_access_retrieve
+      operationId: me_access_retrieve
+      description: "
+
+        \    Returns user's access information.
+
+        \    "
+      parameters: []
+      requestBody:
+        content: {}
+  /api/me/invitations:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: me_invitations_list
+      operationId: me_invitations_list
+      description: Only ``list()`` and ``destroy()`` actions.
+      parameters:
+        - in: query
+          name: ordering
+          description: Which field to use when ordering the results.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/api/me/invitations/{id}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: me_invitations_destroy
+      operationId: me_invitations_destroy
+      description: Only ``list()`` and ``destroy()`` actions.
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/api/me/invitations/{id}/accept":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "created_at": "",
+                    "id": 0
+                  }
+      summary: me_invitations_accept_create
+      operationId: me_invitations_accept_create
+      description: Accept an invitation by ID.
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "created_at": "${created_at}",
+              "id": "${id}",
+              "organization": "${organization}",
+              "status": "${status}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "created_at": "${created_at}",
+                "id": "${id}",
+                "organization": "${organization}",
+                "status": "${status}"
+              }
+  "/api/me/invitations/{id}/decline":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "created_at": "",
+                    "id": 0
+                  }
+      summary: me_invitations_decline_create
+      operationId: me_invitations_decline_create
+      description: Decline an invitation by ID.
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "created_at": "${created_at}",
+              "id": "${id}",
+              "organization": "${organization}",
+              "status": "${status}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "created_at": "${created_at}",
+                "id": "${id}",
+                "organization": "${organization}",
+                "status": "${status}"
+              }
+  /api/me/organization:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: me_organization_list
+      operationId: me_organization_list
+      description: Get organization.
+      parameters:
+        - in: query
+          name: ordering
+          description: Which field to use when ordering the results.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "members_count": 0,
+                    "name": ""
+                  }
+      summary: me_organization_create
+      operationId: me_organization_create
+      description: Create new organization.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "members_count": "${members_count}",
+              "name": "${name}",
+              "owner": "${owner}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "members_count": "${members_count}",
+                "name": "${name}",
+                "owner": "${owner}"
+              }
+  /api/me/organization/invite:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "members_count": 0,
+                    "name": ""
+                  }
+      summary: me_organization_invite_create
+      operationId: me_organization_invite_create
+      description: |-
+        Invite user to organization (accessible only to the organization owner).
+
+        ``POST ~/organization/invite``.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "members_count": "${members_count}",
+              "name": "${name}",
+              "owner": "${owner}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "members_count": "${members_count}",
+                "name": "${name}",
+                "owner": "${owner}"
+              }
+  /api/me/organization/leave:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "members_count": 0,
+                    "name": ""
+                  }
+      summary: me_organization_leave_create
+      operationId: me_organization_leave_create
+      description: |-
+        Leave organization (accessible only to members).
+
+        ``POST ~/organization/leave``.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "members_count": "${members_count}",
+              "name": "${name}",
+              "owner": "${owner}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "members_count": "${members_count}",
+                "name": "${name}",
+                "owner": "${owner}"
+              }
+  /api/me/organization/remove_member:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "members_count": 0,
+                    "name": ""
+                  }
+      summary: me_organization_remove_member_create
+      operationId: me_organization_remove_member_create
+      description: >-
+        Remove user's membership from organization (accessible only to the
+        organization owner).
+
+
+        ``POST ~/organization/remove_member``.
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "members_count": "${members_count}",
+              "name": "${name}",
+              "owner": "${owner}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "members_count": "${members_count}",
+                "name": "${name}",
+                "owner": "${owner}"
+              }
+  /api/notification:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "count": 0,
+                    "results": [],
+                    "total_pages": 0
+                  }
+      summary: notification_list
+      operationId: notification_list
+      description: Only ``list()`` and ``retrieve()`` actions.
+      parameters:
+        - in: query
+          name: ordering
+          description: Which field to use when ordering the results.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page
+          description: A page number within the paginated result set.
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: page_size
+          description: Number of results to return per page.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/api/notification/{id}":
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "body": "",
+                    "created_at": "",
+                    "id": 0,
+                    "read": false,
+                    "title": ""
+                  }
+      summary: notification_retrieve
+      operationId: notification_retrieve
+      description: Only ``list()`` and ``retrieve()`` actions.
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+  "/api/notification/{id}/mark-as-read":
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "body": "",
+                    "created_at": "",
+                    "id": 0,
+                    "read": false,
+                    "title": ""
+                  }
+      summary: notification_mark_as_read_create
+      operationId: notification_mark_as_read_create
+      description: Only ``list()`` and ``retrieve()`` actions.
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "body": "${body}",
+              "created_at": "${created_at}",
+              "id": "${id}",
+              "read": "${read}",
+              "title": "${title}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "body": "${body}",
+                "created_at": "${created_at}",
+                "id": "${id}",
+                "read": "${read}",
+                "title": "${title}"
+              }
+  /api/playbook/analyze_multiple_files:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzers_running": [],
+                    "connectors_running": [],
+                    "job_id": 0,
+                    "playbooks_running": [],
+                    "status": "",
+                    "warnings": []
+                  }
+      summary: playbook_analyze_multiple_files_create
+      operationId: playbook_analyze_multiple_files_create
+      description: This endpoint allows to start a Job related to a file
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "analyzers_requested": "${analyzers_requested}",
+              "connectors_requested": "${connectors_requested}",
+              "file": "${file}",
+              "file_mimetype": "${file_mimetype}",
+              "file_name": "${file_name}",
+              "id": "${id}",
+              "playbooks_requested": "${playbooks_requested}",
+              "runtime_configuration": "${runtime_configuration}",
+              "tags_labels": "${tags_labels}",
+              "tlp": "${tlp}",
+              "user": "${user}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "analyzers_requested": "${analyzers_requested}",
+                "connectors_requested": "${connectors_requested}",
+                "file": "${file}",
+                "file_mimetype": "${file_mimetype}",
+                "file_name": "${file_name}",
+                "id": "${id}",
+                "playbooks_requested": "${playbooks_requested}",
+                "runtime_configuration": "${runtime_configuration}",
+                "tags_labels": "${tags_labels}",
+                "tlp": "${tlp}",
+                "user": "${user}"
+              }
+  /api/playbook/analyze_multiple_observables:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "analyzers_running": [],
+                    "connectors_running": [],
+                    "job_id": 0,
+                    "playbooks_running": [],
+                    "status": "",
+                    "warnings": []
+                  }
+      summary: playbook_analyze_multiple_observables_create
+      operationId: playbook_analyze_multiple_observables_create
+      description: This endpoint allows to start a Job related to an observable
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "analyzers_requested": "${analyzers_requested}",
+              "connectors_requested": "${connectors_requested}",
+              "id": "${id}",
+              "observable_classification": "${observable_classification}",
+              "observable_name": "${observable_name}",
+              "playbooks_requested": "${playbooks_requested}",
+              "runtime_configuration": "${runtime_configuration}",
+              "tags_labels": "${tags_labels}",
+              "tlp": "${tlp}",
+              "user": "${user}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "analyzers_requested": "${analyzers_requested}",
+                "connectors_requested": "${connectors_requested}",
+                "id": "${id}",
+                "observable_classification": "${observable_classification}",
+                "observable_name": "${observable_name}",
+                "playbooks_requested": "${playbooks_requested}",
+                "runtime_configuration": "${runtime_configuration}",
+                "tags_labels": "${tags_labels}",
+                "tlp": "${tlp}",
+                "user": "${user}"
+              }
+  /api/playbook/cache_playbook:
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: playbook_cache_playbook_create
+      operationId: playbook_cache_playbook_create
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /api/plugin-config:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: plugin_config_list
+      operationId: plugin_config_list
+      description: "
+
+        \    REST endpoint to fetch list of PluginConfig or
+        retrieve/delete a CustomConfig.
+
+        \    Requires authentication. Allows access to only authorized
+        CustomConfigs.
+
+        \    "
+      parameters:
+        - in: query
+          name: ordering
+          description: Which field to use when ordering the results.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "attribute": "",
+                    "id": 0,
+                    "organization": "",
+                    "plugin_name": "",
+                    "updated_at": "",
+                    "value": []
+                  }
+      summary: plugin_config_create
+      operationId: plugin_config_create
+      description: "
+
+        \    REST endpoint to fetch list of PluginConfig or
+        retrieve/delete a CustomConfig.
+
+        \    Requires authentication. Allows access to only authorized
+        CustomConfigs.
+
+        \    "
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "attribute": "${attribute}",
+              "config_type": "${config_type}",
+              "id": "${id}",
+              "organization": "${organization}",
+              "plugin_name": "${plugin_name}",
+              "type": "${type}",
+              "updated_at": "${updated_at}",
+              "value": "${value}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "attribute": "${attribute}",
+                "config_type": "${config_type}",
+                "id": "${id}",
+                "organization": "${organization}",
+                "plugin_name": "${plugin_name}",
+                "type": "${type}",
+                "updated_at": "${updated_at}",
+                "value": "${value}"
+              }
+  "/api/plugin-config/{id}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: plugin_config_destroy
+      operationId: plugin_config_destroy
+      description: "
+
+        \    REST endpoint to fetch list of PluginConfig or
+        retrieve/delete a CustomConfig.
+
+        \    Requires authentication. Allows access to only authorized
+        CustomConfigs.
+
+        \    "
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "attribute": "",
+                    "id": 0,
+                    "organization": "",
+                    "plugin_name": "",
+                    "updated_at": "",
+                    "value": []
+                  }
+      summary: plugin_config_retrieve
+      operationId: plugin_config_retrieve
+      description: "
+
+        \    REST endpoint to fetch list of PluginConfig or
+        retrieve/delete a CustomConfig.
+
+        \    Requires authentication. Allows access to only authorized
+        CustomConfigs.
+
+        \    "
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    patch:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "attribute": "",
+                    "id": 0,
+                    "organization": "",
+                    "plugin_name": "",
+                    "updated_at": "",
+                    "value": []
+                  }
+      summary: plugin_config_partial_update
+      operationId: plugin_config_partial_update
+      description: "
+
+        \    REST endpoint to fetch list of PluginConfig or
+        retrieve/delete a CustomConfig.
+
+        \    Requires authentication. Allows access to only authorized
+        CustomConfigs.
+
+        \    "
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "attribute": "${attribute}",
+              "config_type": "${config_type}",
+              "id": "${id}",
+              "organization": "${organization}",
+              "plugin_name": "${plugin_name}",
+              "type": "${type}",
+              "updated_at": "${updated_at}",
+              "value": "${value}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "attribute": "${attribute}",
+                "config_type": "${config_type}",
+                "id": "${id}",
+                "organization": "${organization}",
+                "plugin_name": "${plugin_name}",
+                "type": "${type}",
+                "updated_at": "${updated_at}",
+                "value": "${value}"
+              }
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "attribute": "",
+                    "id": 0,
+                    "organization": "",
+                    "plugin_name": "",
+                    "updated_at": "",
+                    "value": []
+                  }
+      summary: plugin_config_update
+      operationId: plugin_config_update
+      description: "
+
+        \    REST endpoint to fetch list of PluginConfig or
+        retrieve/delete a CustomConfig.
+
+        \    Requires authentication. Allows access to only authorized
+        CustomConfigs.
+
+        \    "
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "attribute": "${attribute}",
+              "config_type": "${config_type}",
+              "id": "${id}",
+              "organization": "${organization}",
+              "plugin_name": "${plugin_name}",
+              "type": "${type}",
+              "updated_at": "${updated_at}",
+              "value": "${value}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "attribute": "${attribute}",
+                "config_type": "${config_type}",
+                "id": "${id}",
+                "organization": "${organization}",
+                "plugin_name": "${plugin_name}",
+                "type": "${type}",
+                "updated_at": "${updated_at}",
+                "value": "${value}"
+              }
+  /api/plugin-disable/:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "data": []
+                  }
+      summary: plugin_disable_retrieve
+      operationId: plugin_disable_retrieve
+      description: |-
+        This endpoint allows organization owners
+            and members to view plugin state.
+      parameters: []
+      requestBody:
+        content: {}
+  "/api/plugin-disable/{plugin_type}/{plugin_name}/":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: plugin_disable_destroy
+      operationId: plugin_disable_destroy
+      description: This endpoint allows organization owners to toggle plugin state.
+      parameters:
+        - in: path
+          name: plugin_name
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: plugin_type
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: plugin_disable_create
+      operationId: plugin_disable_create
+      description: This endpoint allows organization owners to toggle plugin state.
+      parameters:
+        - in: path
+          name: plugin_name
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: plugin_type
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: ""
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: ""
+  /api/tags:
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: tags_list
+      operationId: tags_list
+      description: "
+
+        \    REST endpoint to perform CRUD operations on ``Tag`` model.
+
+        \    Requires authentication.
+
+        \    "
+      parameters:
+        - in: query
+          name: ordering
+          description: Which field to use when ordering the results.
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    post:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "color": "",
+                    "id": 0,
+                    "label": ""
+                  }
+      summary: tags_create
+      operationId: tags_create
+      description: "
+
+        \    REST endpoint to perform CRUD operations on ``Tag`` model.
+
+        \    Requires authentication.
+
+        \    "
+      parameters:
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "color": "${color}",
+              "id": "${id}",
+              "label": "${label}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "color": "${color}",
+                "id": "${id}",
+                "label": "${label}"
+              }
+  "/api/tags/{id}":
+    delete:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ""
+      summary: tags_destroy
+      operationId: tags_destroy
+      description: "
+
+        \    REST endpoint to perform CRUD operations on ``Tag`` model.
+
+        \    Requires authentication.
+
+        \    "
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    get:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "color": "",
+                    "id": 0,
+                    "label": ""
+                  }
+      summary: tags_retrieve
+      operationId: tags_retrieve
+      description: "
+
+        \    REST endpoint to perform CRUD operations on ``Tag`` model.
+
+        \    Requires authentication.
+
+        \    "
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content: {}
+    patch:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "color": "",
+                    "id": 0,
+                    "label": ""
+                  }
+      summary: tags_partial_update
+      operationId: tags_partial_update
+      description: "
+
+        \    REST endpoint to perform CRUD operations on ``Tag`` model.
+
+        \    Requires authentication.
+
+        \    "
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "color": "${color}",
+              "id": "${id}",
+              "label": "${label}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "color": "${color}",
+                "id": "${id}",
+                "label": "${label}"
+              }
+    put:
+      responses:
+        default:
+          description: default
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |-
+                  {
+                    "color": "",
+                    "id": 0,
+                    "label": ""
+                  }
+      summary: tags_update
+      operationId: tags_update
+      description: "
+
+        \    REST endpoint to perform CRUD operations on ``Tag`` model.
+
+        \    Requires authentication.
+
+        \    "
+      parameters:
+        - in: path
+          name: id
+          description: Generated by shuffler.io OpenAPI
+          required: true
+          schema:
+            type: string
+        - in: body
+          name: body
+          multiline: true
+          description: Generated by shuffler.io OpenAPI
+          required: false
+          example: |-
+            {
+              "color": "${color}",
+              "id": "${id}",
+              "label": "${label}"
+            }
+          schema:
+            type: string
+      requestBody:
+        description: Generated by Shuffler.io
+        required: false
+        content:
+          example:
+            example: |-
+              {
+                "color": "${color}",
+                "id": "${id}",
+                "label": "${label}"
+              }
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: "Token "
